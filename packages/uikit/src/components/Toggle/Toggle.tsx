@@ -24,10 +24,10 @@ const Toggle: React.FC<React.PropsWithChildren<ToggleProps>> = ({
               {checked ? endIcon(checked) : startIcon(!checked)}
             </Flex>
           </Handle>
-          <Flex width="100%" height="100%" justifyContent="space-around" alignItems="center">
+          {/* <Flex width="100%" height="100%" justifyContent="space-around" alignItems="center">
             {startIcon()}
             {endIcon()}
-          </Flex>
+          </Flex> */}
         </>
       ) : (
         <Handle scale={scale} />

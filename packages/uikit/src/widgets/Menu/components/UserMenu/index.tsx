@@ -35,6 +35,13 @@ export const LabelText = styled.div`
     margin-right: 4px;
   }
 `;
+export const WalletImg = styled.div`
+  max-width: 20px;
+  img {
+    width: 100%;
+    display:block;
+  }
+`;
 
 const Menu = styled.div<{ isOpen: boolean }>`
   background-color: ${({ theme }) => theme.card.background};
@@ -111,9 +118,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
           setIsOpen((s) => !s);
         }}
       >
-        <MenuIcon avatarSrc={avatarSrc} variant={variant} />
+        {/* <MenuIcon avatarSrc={avatarSrc} variant={variant} /> */}
+        <WalletImg>
+          <img src="/images/wallet_img.png" alt="" />
+        </WalletImg>
         <LabelText title={typeof text === "string" ? text || account : account}>{text || accountEllipsis}</LabelText>
-        {!disabled && <ChevronDownIcon color="text" width="24px" />}
+        {/* {!disabled && <ChevronDownIcon color="text" width="24px" />} */}
       </StyledUserMenu>
       {!disabled && (
         <Menu style={styles.popper} ref={setTooltipRef} {...attributes.popper} isOpen={isOpen}>

@@ -43,7 +43,7 @@ const StyledLink = styled("a")`
   }
 `;
 const LogoImg = styled("div")`
-  max-width: 200px;
+  max-width: 100px;
 `;
 
 const Logo: React.FC<React.PropsWithChildren<Props>> = ({ isDark, href }) => {

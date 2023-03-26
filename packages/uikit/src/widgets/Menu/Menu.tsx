@@ -1,5 +1,6 @@
 import throttle from "lodash/throttle";
 import React, { useEffect, useRef, useState } from "react";
+import { ThemeSwitcher } from "@pancakeswap/uikit";
 import styled from "styled-components";
 import BottomNav from "../../components/BottomNav";
 import { Box } from "../../components/Box";
@@ -20,14 +21,15 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const StyledNav = styled.nav`
+const StyledNav = styled.nav<{ isMobile: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: ${MENU_HEIGHT}px;
-  background-color: ${({ theme }) => theme.nav.background};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  height: ${({ isMobile }) => (isMobile ? "56px" : `${MENU_HEIGHT}px`)};
+  // background-color: ${({ theme }) => theme.nav.background};
+  background-color: #000;
+  border-bottom: 1px solid #000;
   transform: translate3d(0, 0, 0);
 
   padding-left: 16px;
@@ -87,7 +89,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
 
   const topBannerHeight = isMobile ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
 
-  const totalTopMenuHeight = banner ? MENU_HEIGHT + topBannerHeight : MENU_HEIGHT;
+  const totalTopMenuHeight = isMobile ? 56 : banner ? MENU_HEIGHT + topBannerHeight : MENU_HEIGHT;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -129,17 +131,19 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
       <Wrapper>
         <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
-          <StyledNav>
+          <StyledNav isMobile={isMobile}>
             <Flex>
               <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
               {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />}
             </Flex>
             <Flex alignItems="center" height="100%">
-              {!isMobile && !isMd && (
+              {/* {!isMobile && !isMd && (
                 <Box mr="12px">
                   <CakePrice showSkeleton={false} cakePriceUsd={cakePriceUsd} />
                 </Box>
-              )}
+              )} */}
+
+              {rightSide}
               <Box mt="4px">
                 <LangSelector
                   currentLang={currentLang}
@@ -150,7 +154,9 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
                   hideLanguage
                 />
               </Box>
-              {rightSide}
+              <Box mr="8px">
+                <ThemeSwitcher isDark={isDark} toggleTheme={toggleTheme} />
+              </Box>
             </Flex>
           </StyledNav>
         </FixedContainer>

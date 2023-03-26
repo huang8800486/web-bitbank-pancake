@@ -103,14 +103,6 @@ const config: (
       items: [],
     },
     {
-      label: t('Invite'),
-      icon: TrophyIcon,
-      fillIcon: TrophyFillIcon,
-      href: '/invited',
-      showItemsOnMobile: false,
-      items: [],
-    },
-    {
       label: t('Earn'),
       // href: '/farms',
       icon: EarnIcon,
