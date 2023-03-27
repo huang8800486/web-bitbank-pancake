@@ -109,7 +109,7 @@ export default function Pool() {
   }
 
   return (
-    <Page>
+    <Page noMinHeight>
       <AppBody>
         <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} />
         <Body>

@@ -20,7 +20,8 @@ import StableSwapFormContainer from './StableSwap'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import SwapTab, { SwapType } from './components/SwapTab'
 import SwapNavTitle from './components/SwapNavTitle'
-import SwapTitle from "./components/SwapTitle/index";
+import SwapTitle from './components/SwapTitle/index'
+import Liquidity from '../../pages/liquidity'
 
 const CHART_SUPPORT_CHAIN_IDS = [ChainId.BSC]
 export const ACCESS_TOKEN_SUPPORT_CHAIN_IDS = [ChainId.BSC]
@@ -68,11 +69,12 @@ export default function Swap() {
   const isAccessTokenSupported = useMemo(() => ACCESS_TOKEN_SUPPORT_CHAIN_IDS.includes(chainId), [chainId])
   const [currentIndex, setCurrentIndex] = useState(0)
   const changeCurrent = (index) => {
-    if (index === 1) {
-      Router.push(`/liquidity`)
-    } else {
-      setCurrentIndex(index)
-    }
+    setCurrentIndex(index)
+    // if (index === 1) {
+    //   Router.push(`/liquidity`)
+    // } else {
+    //   setCurrentIndex(index)
+    // }
   }
   return (
     <>
@@ -102,6 +104,7 @@ export default function Swap() {
                       }
                     </SwapTab>
                   )}
+                  {currentIndex === 1 && <Liquidity />}
                   {currentIndex === 2 && (
                     <div>
                       <h2>Recent transactions</h2>
