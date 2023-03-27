@@ -1,6 +1,10 @@
-import { Box, Flex } from '@pancakeswap/uikit'
+import { Box, Flex, useMatchBreakpoints } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 
+export const getMedia = (value: string[]) => () => {
+  const { isMobile, isTablet } = useMatchBreakpoints()
+  return isMobile ? value[0] : isTablet ? value[1] : value[2]
+}
 export const StyledSwapContainer = styled(Flex)<{ $isChartExpanded: boolean }>`
   flex-shrink: 0;
   height: fit-content;
@@ -16,5 +20,5 @@ export const StyledSwapContainer = styled(Flex)<{ $isChartExpanded: boolean }>`
 `
 
 export const StyledInputCurrencyWrapper = styled(Box)`
-  width: 328px;
+  width: ${getMedia(['300px', '328px', '392px'])};
 `

@@ -1,11 +1,18 @@
 import styled, { css } from "styled-components";
+import { useMatchBreakpoints } from "@pancakeswap/uikit";
 import { Flex, Box } from "../Box";
+
+export const getMedia = (value: string[]) => () => {
+  const { isMobile, isTablet } = useMatchBreakpoints();
+  return isMobile ? value[0] : isTablet ? value[1] : value[2];
+};
 
 export const SubMenuItemWrapper = styled(Flex)<{ $isMobileOnly: boolean }>`
   ${({ theme }) => theme.mediaQueries.sm} {
     ${({ $isMobileOnly }) => ($isMobileOnly ? "display:none" : "")};
   }
   width: 100%;
+  width: ${getMedia(["300px", "328px", "392px"])};
   overflow: hidden;
   position: relative;
 `;

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ChainId, Currency } from '@pancakeswap/sdk'
+import Router from 'next/router'
 import { Box, Flex, BottomDrawer, useMatchBreakpoints } from '@pancakeswap/uikit'
 import Footer from 'components/Menu/Footer'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -18,6 +19,8 @@ import SwapForm from './components/SwapForm'
 import StableSwapFormContainer from './StableSwap'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import SwapTab, { SwapType } from './components/SwapTab'
+import SwapNavTitle from './components/SwapNavTitle'
+import SwapTitle from "./components/SwapTitle/index";
 
 const CHART_SUPPORT_CHAIN_IDS = [ChainId.BSC]
 export const ACCESS_TOKEN_SUPPORT_CHAIN_IDS = [ChainId.BSC]
@@ -63,71 +66,64 @@ export default function Swap() {
   const isStableSupported = useMemo(() => !chainId || STABLE_SUPPORT_CHAIN_IDS.includes(chainId), [chainId])
 
   const isAccessTokenSupported = useMemo(() => ACCESS_TOKEN_SUPPORT_CHAIN_IDS.includes(chainId), [chainId])
-
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const changeCurrent = (index) => {
+    if (index === 1) {
+      Router.push(`/liquidity`)
+    } else {
+      setCurrentIndex(index)
+    }
+  }
   return (
-    <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
-      <Flex width="100%" justifyContent="center" position="relative">
-        {!isMobile && isChartSupported && (
-          <PriceChartContainer
-            inputCurrencyId={inputCurrencyId}
-            inputCurrency={currencies[Field.INPUT]}
-            outputCurrencyId={outputCurrencyId}
-            outputCurrency={currencies[Field.OUTPUT]}
-            isChartExpanded={isChartExpanded}
-            setIsChartExpanded={setIsChartExpanded}
-            isChartDisplayed={isChartDisplayed}
-            currentSwapPrice={singleTokenPrice}
-          />
-        )}
-        {isChartSupported && (
-          <BottomDrawer
-            content={
-              <PriceChartContainer
-                inputCurrencyId={inputCurrencyId}
-                inputCurrency={currencies[Field.INPUT]}
-                outputCurrencyId={outputCurrencyId}
-                outputCurrency={currencies[Field.OUTPUT]}
-                isChartExpanded={isChartExpanded}
-                setIsChartExpanded={setIsChartExpanded}
-                isChartDisplayed={isChartDisplayed}
-                currentSwapPrice={singleTokenPrice}
-                isMobile
-              />
-            }
-            isOpen={isChartDisplayed}
-            setIsOpen={setIsChartDisplayed}
-          />
-        )}
-        <Flex flexDirection="column">
-          <StyledSwapContainer $isChartExpanded={isChartExpanded}>
-            <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
-              <AppBody>
-                <SwapTab showStable={isStableSupported}>
-                  {(swapTypeState) =>
-                    swapTypeState === SwapType.STABLE_SWAP ? (
-                      <StableSwapFormContainer
-                        setIsChartDisplayed={setIsChartDisplayed}
-                        isChartDisplayed={isChartDisplayed}
-                      />
-                    ) : (
-                      <SwapForm
-                        isAccessTokenSupported={isAccessTokenSupported}
-                        setIsChartDisplayed={setIsChartDisplayed}
-                        isChartDisplayed={isChartDisplayed}
-                      />
-                    )
-                  }
-                </SwapTab>
-              </AppBody>
-            </StyledInputCurrencyWrapper>
-          </StyledSwapContainer>
-          {isChartExpanded && (
-            <Box display={['none', null, null, 'block']} width="100%" height="100%">
-              <Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
-            </Box>
-          )}
+    <>
+      <SwapTitle />
+      <Page isSwapBg removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
+        <Flex width="100%" justifyContent="center" position="relative">
+          <Flex flexDirection="column">
+            <StyledSwapContainer $isChartExpanded={isChartExpanded}>
+              <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
+                <AppBody>
+                  <SwapNavTitle currentIndex={currentIndex} changeCurrent={changeCurrent} />
+                  {currentIndex === 0 && (
+                    <SwapTab showStable={isStableSupported}>
+                      {(swapTypeState) =>
+                        swapTypeState === SwapType.STABLE_SWAP ? (
+                          <StableSwapFormContainer
+                            setIsChartDisplayed={setIsChartDisplayed}
+                            isChartDisplayed={isChartDisplayed}
+                          />
+                        ) : (
+                          <SwapForm
+                            isAccessTokenSupported={isAccessTokenSupported}
+                            setIsChartDisplayed={setIsChartDisplayed}
+                            isChartDisplayed={isChartDisplayed}
+                          />
+                        )
+                      }
+                    </SwapTab>
+                  )}
+                  {currentIndex === 2 && (
+                    <div>
+                      <h2>Recent transactions</h2>
+                      <p>Please connect your wallet to view your recent transactions</p>
+                    </div>
+                  )}
+                  {currentIndex === 3 && (
+                    <div>
+                      <h2>Buy and Sell crypto</h2>
+                    </div>
+                  )}
+                </AppBody>
+              </StyledInputCurrencyWrapper>
+            </StyledSwapContainer>
+            {isChartExpanded && (
+              <Box display={['none', null, null, 'block']} width="100%" height="100%">
+                <Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
+              </Box>
+            )}
+          </Flex>
         </Flex>
-      </Flex>
-    </Page>
+      </Page>
+    </>
   )
 }

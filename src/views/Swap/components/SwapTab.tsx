@@ -12,14 +12,14 @@ export default function SwapTab({ children, showStable }) {
   if (showStable) {
     return (
       <>
-        <TabMenu
+        {/* <TabMenu
           fullWidth
           activeIndex={swapTypeState}
           onItemClick={() => setSwapType((state) => (state === SwapType.SWAP ? SwapType.STABLE_SWAP : SwapType.SWAP))}
         >
           <Tab>Swap</Tab>
           <Tab style={{ display: 'none', width: '0!important;' }}>StableSwap</Tab>
-        </TabMenu>
+        </TabMenu> */}
         {children(swapTypeState)}
       </>
     )

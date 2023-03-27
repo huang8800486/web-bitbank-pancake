@@ -1,6 +1,7 @@
 import throttle from "lodash/throttle";
 import React, { useEffect, useRef, useState } from "react";
-import { ThemeSwitcher } from "@pancakeswap/uikit";
+import { ThemeSwitcher, Button } from "@pancakeswap/uikit";
+import Link from "next/link";
 import styled from "styled-components";
 import BottomNav from "../../components/BottomNav";
 import { Box } from "../../components/Box";
@@ -19,6 +20,7 @@ import { MenuContext } from "./context";
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
+  background: url(/images/bitbank/trade.png) no-repeat center top;
 `;
 
 const StyledNav = styled.nav<{ isMobile: boolean }>`
@@ -86,7 +88,6 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   const { isMobile, isMd } = useMatchBreakpoints();
   const [showMenu, setShowMenu] = useState(true);
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
-
   const topBannerHeight = isMobile ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
 
   const totalTopMenuHeight = isMobile ? 56 : banner ? MENU_HEIGHT + topBannerHeight : MENU_HEIGHT;
@@ -135,6 +136,15 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
             <Flex>
               <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
               {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />}
+              {!isMobile && (
+                <Flex alignItems="center">
+                  <Link href="javascript:;">
+                    <Button height={36} as="a">
+                      NFT
+                    </Button>
+                  </Link>
+                </Flex>
+              )}
             </Flex>
             <Flex alignItems="center" height="100%">
               {/* {!isMobile && !isMd && (
@@ -162,7 +172,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
         </FixedContainer>
         {subLinks && (
           <Flex justifyContent="space-around">
-            <SubMenuItems items={subLinksWithoutMobile} mt={`${totalTopMenuHeight + 1}px`} activeItem={activeSubItem} />
+            <SubMenuItems items={subLinksWithoutMobile} mt={`${totalTopMenuHeight}px`} activeItem={activeSubItem} />
 
             {subLinksMobileOnly?.length > 0 && (
               <SubMenuItems

@@ -64,7 +64,7 @@ const Footer: React.FC<React.PropsWithChildren<{ variant?: FooterVariant; helpUr
         </LinkExternal>
       </Flex> */}
       {isSide && <Flex flexGrow={1} />}
-      <Flex
+      {/* <Flex
         flexGrow={isSide ? 0 : 1}
         alignItems="center"
         width={['100%', '100%', '100%', isSide ? '100%' : 'auto']}
@@ -79,7 +79,7 @@ const Footer: React.FC<React.PropsWithChildren<{ variant?: FooterVariant; helpUr
           </Svg>
         </BubbleWrapper>
         <Image src="/images/help.png" alt="Get some help" width={120} height={120} />
-      </Flex>
+      </Flex> */}
     </Wrapper>
   )
 }
